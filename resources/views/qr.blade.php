@@ -23,7 +23,7 @@
     </head>
     <body class="p-3">
         @foreach ($files as $file)
-            <div style="margin-bottom: 0px; display: flex; align-items: center">
+            <div style="margin-bottom: 10px;">
                 <img src="{{$file['file']}}" style="height: 0.75in; margin-right: 10px;">
                 <span>{{$file['name']}}</span>
             </div>

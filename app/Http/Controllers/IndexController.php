@@ -28,7 +28,7 @@ class IndexController extends Controller
                 ];
             }
 
-            if($key >= 10) break;
+            if($key > 10) break;
         }
 
         // return view('qr', [
