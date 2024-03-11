@@ -20,8 +20,13 @@ class IndexController extends Controller
         $all = [];
         foreach ($files as $key => $file) {
             $filename = $path . "/" . $file;
-            if(is_file($filename))
-                $all[] = $filename;
+            if(is_file($filename)) {
+                $name = explode('.', $file)[0];
+                $all[] = [
+                    'name' => $name,
+                    'file' => $filename
+                ];
+            }
 
             if($key >= 10) break;
         }
