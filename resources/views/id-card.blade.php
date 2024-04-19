@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>ID Card</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,21 +16,176 @@
         </style>
 
         <style>
-            html, body {
-                height: 100%;
+            body {
+                background-color: #d7d6d3;
+                font-family:'verdana';
+            }
+
+            .id-card-holder {
+                width: 300px;
+                padding: 18px;
+                margin: 0 auto;
+                background-color: #eeeeee;
+                border-radius: 10px;
+                position: relative;
+            }
+
+            /* .id-card-holder:after {
+                content: '';
+                width: 7px;
+                display: block;
+                background-color: #0a0a0a;
+                height: 100px;
+                position: absolute;
+                top: 105px;
+                border-radius: 0 5px 5px 0;
+            } */
+
+            /* .id-card-holder:before {
+                content: '';
+                width: 7px;
+                display: block;
+                background-color: #0a0a0a;
+                height: 100px;
+                position: absolute;
+                top: 105px;
+                left: 222px;
+                border-radius: 5px 0 0 5px;
+            } */
+
+            .id-card {
+                background-color: #fff;
+                /* padding: 10px; */
+                /* border-radius: 10px; */
+                text-align: center;
+                box-shadow: 0 0 1.5px 0px #b9b9b9;
+            }
+
+            .id-card img {
+                margin: 0 auto;
+            }
+
+            .header img {
+                width: 100px;
+                margin-top: 15px;
+            }
+
+            .photo img {
+                width: 150px;
+                margin-top: 15px;
+            }
+
+            h2 {
+                font-size: 15px;
+                margin: 5px 0;
+            }
+
+            h3 {
+                font-size: 12px;
+                margin: 2.5px 0;
+                font-weight: 300;
+            }
+            .qr-code img {
+                width: 50px;
+            }
+            p {
+                font-size: 5px;
+                margin: 2px;
+            }
+            .id-card-hook {
+                background-color: #000;
+                width: 70px;
+                margin: 0 auto;
+                height: 15px;
+                border-radius: 5px 5px 0 0;
+            }
+            .id-card-hook:after {
+                content: '';
+                background-color: #d7d6d3;
+                width: 47px;
+                height: 6px;
+                display: block;
+                margin: 0px auto;
+                position: relative;
+                top: 6px;
+                border-radius: 4px;
+            }
+            .id-card-tag-strip {
+                width: 45px;
+                height: 40px;
+                background-color: lightblue;
+                margin: 0 auto;
+                border-radius: 5px;
+                position: relative;
+                top: 9px;
+                z-index: 1;
+                border: 1px solid lightblue;
+            }
+            .id-card-tag-strip:after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 1px;
+                background-color: #c1c1c1;
+                position: relative;
+                top: 10px;
+            }
+            .id-card-tag {
+                width: 0;
+                height: 0;
+                border-left: 100px solid transparent;
+                border-right: 100px solid transparent;
+                border-top: 100px solid lightblue;
+                margin: -10px auto -30px auto;
+            }
+            .id-card-tag:after {
+                content: '';
+                display: block;
+                width: 0;
+                height: 0;
+                border-left: 50px solid transparent;
+                border-right: 50px solid transparent;
+                border-top: 100px solid #d7d6d3;
+                margin: -10px auto -30px auto;
+                position: relative;
+                top: -130px;
+                left: -50px;
             }
         </style>
     </head>
-    <body class="p-3">
-        @foreach ($files as $key => $file)
-            <div style="margin-bottom: 10px;">
-                <img src="{{$file['file']}}" style="height: 0.75in; width: 100px; margin-right: 10px;">
-                <span>{{$file['name']}}</span>
-            </div>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-center">
+            <div style="width: fit-content;" class="p-3 border-3 border-red-600">
+                <div class="id-card-tag"></div>
+                <div class="id-card-tag-strip"></div>
+                <div class="id-card-hook"></div>
+                <div class="id-card-holder">
+                    <div class="id-card">
+                        <div class="header" style="height: 150px; background-color: lightblue; border-bottom-left-radius: 50%; border-bottom-right-radius: 50%; position: relative; padding: 10px">
+                            <img src="https://lh3.googleusercontent.com/-ebxWAGWvWg0/WTABBfdBv2I/AAAAAAAAAqw/qef78bVeIngorIsmAUD4tWVUd8WDvZyuQCEw/w140-h74-p/Untitled-2.png">
 
-            @if (($key + 1) % 10 == 0)
-               <div style="height: 200px"></div>
-            @endif
-        @endforeach
+                            <div class="photo" style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);">
+                                <img src="{{asset('images/idcard.png')}}">
+                            </div>
+                        </div>
+
+                        <div style="padding: 10px; margin-top: 34px;; overflow: hidden;">
+                            <div style="text-align: center; margin-bottom: 5xp; flex-wrap: wrap">
+                                <h2>Name: {{$user->name}}</h2>
+                                <h2>Designation: {{$user->designation}}</h2>
+                                <h2>Email: {{$user->email}}</h2>
+                                <h2>Tel: {{$user->phone}}</h2>
+                            </div>
+
+                            <h3>www.dreambugltd.com</h3>
+                            <hr>
+                            <p><strong>"PENGG"</strong>HOUSE,4th Floor, TC 11/729(4), Division Office Road <p>
+                            <p>Near PMG Junction, Thiruvananthapuram Kerala, India <strong>695033</strong></p>
+                            <p>Ph: 9446062493 | E-ail: info@onetikk.info</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

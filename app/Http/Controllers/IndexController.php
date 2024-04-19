@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use QrCode;
 use PDF;
+use App\Models\User;
 
 class IndexController extends Controller
 {
 
     /**
-     * Handle the incoming request.
+     * Handle the incoming request. SPDp.koptJjP
      */
     public function index(Request $request)
     {
@@ -46,6 +47,15 @@ class IndexController extends Controller
      * Handle the incoming request.
      */
     public function __invoke(Request $request)
+    {
+        $user = User::where('email', $request->email)->firstOrFail();
+        return view('id-card', ['user' => $user]);
+    }
+
+       /**
+     * Handle the incoming request.
+     */
+    public function pdf(Request $request)
     {
         $limit = 100;
         $page = $request->page ?? 1;
@@ -84,8 +94,57 @@ class IndexController extends Controller
             }
         }
         catch (\Exception $e) {
-            //throw $th;
-            info($e->getMessage());
+            // info($e->getMessage());
+        }
+    }
+
+    public function idCard() {
+        $users = [
+            [
+                "name" => "Emmanuel Opara",
+                "email" => "emmanuelopara@dreambugltd.com",
+                "designation" => "Music Producer",
+                "phone" => "+2348065129182"
+            ],
+
+            [
+                "name" => "Daniel Opara",
+                "email" => "danielopara@dreambugltd.com",
+                "designation" => "Music Producer",
+                "phone" => "+2348065129154"
+            ],
+
+            [
+                "name" => "Grace Ebimoh",
+                "email" => "graceebimoh@dreambugltd.com",
+                "designation" => "Marketing & Communications Executive",
+                "phone" => "+2347065101931"
+            ],
+        ];
+
+        foreach ($users as $key => $user) {
+            User::create($user);
+            $code = "https://qr.wristbandsng.com?email=" . $user['email'];
+            $this->generateQr($code, "qrcode", $user['email']);
+        }
+
+        return view('id-card');
+    }
+
+    private function generateQr($code, $filename = "qrcode", $folder = "qrcode") {
+        try {
+            $path = public_path($folder);
+            if(!file_exists($path)) mkdir($path, 0777, true);
+
+            $file = $filename . ".png";
+            $filename = $path . "/" . $file;
+
+            if(!file_exists($filename)) {
+                QrCode::format('png')->generate($code, $filename);
+            }
+        }
+        catch (\Exception $e) {
+            // info($e->getMessage());
         }
     }
 }

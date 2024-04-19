@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'IndexController');
 Route::get('/index', 'IndexController@index');
+Route::get('/id-card', 'IndexController@idCard');
