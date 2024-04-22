@@ -58,7 +58,7 @@ class IndexController extends Controller
     public function pdf(Request $request)
     {
         $limit = 100;
-        $page = $request->page ?? 1;
+        $page = $request->page ?? 1; 
         $offset = ($page - 1) * $limit;
 
         $range = [];
