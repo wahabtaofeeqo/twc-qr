@@ -18,9 +18,9 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
     {
         $name = $row['name'];
         $email = $row['email'];
-        $qrCode = $row['data'];
         $location = $row['location'];
         $category = $row['category'];
+        $qrCode = "name=" . urlencode($name) . "&email=" . urlencode($email) . "&org=$category" . "&jobTitle=$location";
 
         if($name && $email) {
             return new User([

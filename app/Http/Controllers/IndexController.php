@@ -54,7 +54,19 @@ class IndexController extends Controller
     {
         // $user = User::where('email', $request->email)->firstOrFail();
         // return view('id-card', ['user' => $user]);
-        return "Hello!";
+
+        // $qrCode = [
+        //     'name' => 'Tao',
+        //     'email' => 'tao@yahoo.com',
+        //     'org' => 'cate',
+        //     'jobTitle' => 'loc'
+        // ];
+        // 'name=Afamefuna+Ogujiofor&email=Afamefuna.Ogujiofor@mtn.com&org=Delegate&jobTitle=East'
+        // $name = "Wahab Taofeek";
+        // $email = "taofeek@yahoo.com";
+        // $qrCode = "name=" . urlencode($name) . "&email=" . urlencode($email) . "&org=Delegate&jobTitle=East";
+
+        return "Hello World!";
     }
 
        /**
