@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use QrCode;
 use PDF;
+use Mail;
 use App\Models\User;
+use App\Mail\QrCreated;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IndexController extends Controller
 {
@@ -48,8 +52,9 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $user = User::where('email', $request->email)->firstOrFail();
-        return view('id-card', ['user' => $user]);
+        // $user = User::where('email', $request->email)->firstOrFail();
+        // return view('id-card', ['user' => $user]);
+        return "Hello!";
     }
 
        /**
@@ -146,5 +151,64 @@ class IndexController extends Controller
         catch (\Exception $e) {
             // info($e->getMessage());
         }
+    }
+
+    /**
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function send()
+    {
+        // $users = User::where('sent', 0)->get();
+        // foreach ($users as $key => $user) {
+        //     $this->doSend($user);
+        // }
+
+        $user = User::firstOrCreate(['email' => 'taofeekolamilekan218@gmail.com'], [
+            'name' => 'Tester',
+            'email' => 'taofeekolamilekan218@gmail.com',
+            'data' => 'name=Afamefuna+Ogujiofor&email=Afamefuna.Ogujiofor@mtn.com&org=Delegate&jobTitle=East'
+        ]);
+
+        $this->doSend($user);
+
+        //
+        return 'Email sent';
+    }
+
+    private function doSend($user, $userCopy = []) {
+        try {
+            if(!$user->qr) {
+                $path = public_path('qrcode/' . $user->email);
+                if(!file_exists($path)) mkdir($path, 0777, true);
+
+                $file = "qr.png";
+                $filename = $path . "/" . $file;
+
+                if(!file_exists($filename)) {
+                    \QrCode::color(255, 0, 127)->format('png')
+                        ->size(500)->generate($user->data, $filename);
+                }
+            }
+            else $path = $user->qr;
+
+            //
+            Mail::to($user)->send(new QrCreated($user));
+
+            // Update model
+            $user->qr = $path;
+            $user->sent = true;
+
+            $user->save();
+        }
+        catch (\Throwable $e) {
+            info($e->getMessage());
+            // throw $th;
+        }
+    }
+
+    public function init() {
+        Excel::import(new UsersImport, 'users.xlsx');
+        return "Uploaded";
     }
 }
