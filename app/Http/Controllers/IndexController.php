@@ -10,66 +10,45 @@ use App\Models\User;
 use App\Mail\QrCreated;
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class IndexController extends Controller
 {
-
     /**
      * Handle the incoming request. SPDp.koptJjP
      */
     public function index(Request $request)
     {
-        $path = public_path("images/qrs");
-        $files = scandir($path);
+        // $path = public_path("images/qrs");
+        // $files = scandir($path);
 
-        $all = [];
-        foreach ($files as $key => $file) {
-            $filename = $path . "/" . $file;
-            if(is_file($filename)) {
-                $name = explode('.', $file)[0];
-                $all[] = [
-                    'name' => $name,
-                    'file' => $filename
-                ];
-            }
+        // $all = [];
+        // foreach ($files as $key => $file) {
+        //     $filename = $path . "/" . $file;
+        //     if(is_file($filename)) {
+        //         $name = explode('.', $file)[0];
+        //         $all[] = [
+        //             'name' => $name,
+        //             'file' => $filename
+        //         ];
+        //     }
 
-            if($key > 10) break;
-        }
+        //     if($key > 10) break;
+        // }
 
-        // return view('qr', [
+        // // return view('qr', [
+        // //     'files' => $all
+        // // ]);
+
+        // $pdf = PDF::loadView('qr', [
         //     'files' => $all
         // ]);
 
-        $pdf = PDF::loadView('qr', [
-            'files' => $all
-        ]);
-
-        return $pdf->download('qr.pdf');
+        // return $pdf->download('qr.pdf');
     }
 
     /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request)
-    {
-        // $user = User::where('email', $request->email)->firstOrFail();
-        // return view('id-card', ['user' => $user]);
-
-        // $qrCode = [
-        //     'name' => 'Tao',
-        //     'email' => 'tao@yahoo.com',
-        //     'org' => 'cate',
-        //     'jobTitle' => 'loc'
-        // ];
-        // 'name=Afamefuna+Ogujiofor&email=Afamefuna.Ogujiofor@mtn.com&org=Delegate&jobTitle=East'
-        // $name = "Wahab Taofeek";
-        // $email = "taofeek@yahoo.com";
-        // $qrCode = "name=" . urlencode($name) . "&email=" . urlencode($email) . "&org=Delegate&jobTitle=East";
-
-        return "Hello World!";
-    }
-
-       /**
      * Handle the incoming request.
      */
     public function pdf(Request $request)
@@ -156,8 +135,11 @@ class IndexController extends Controller
             $file = $filename . ".png";
             $filename = $path . "/" . $file;
 
+            // \QrCode::color(255, 0, 127)->format('png')
+            //     ->size(500)->generate($code, $filename);
+
             if(!file_exists($filename)) {
-                QrCode::format('png')->generate($code, $filename);
+                QrCode::size(500)->format('png')->generate($code, $filename);
             }
         }
         catch (\Exception $e) {
@@ -214,13 +196,13 @@ class IndexController extends Controller
             $user->save();
         }
         catch (\Throwable $e) {
-            info($e->getMessage());
+            // info($e->getMessage());
             // throw $th;
         }
     }
 
     public function init() {
-        Excel::import(new UsersImport, 'users.xlsx');
+        Excel::import(new UsersImport, 'list3.xlsx');
         return "Uploaded";
     }
 }

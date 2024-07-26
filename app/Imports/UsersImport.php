@@ -16,19 +16,23 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
     */
     public function model(array $row)
     {
-        $name = $row['name'];
+        $age = $row['age'];
         $email = $row['email'];
+        $phone = $row['phone'];
+        $gender = $row['gender'];
         $location = $row['location'];
-        $category = $row['category'];
-        $qrCode = "name=" . urlencode($name) . "&email=" . urlencode($email) . "&org=$category" . "&jobTitle=$location";
+        $name = $row['first_name'] . '' . $row['last_name'];
+        // $category = $row['category'];
+        // $qrCode = "name=" . urlencode($name) . "&email=" . urlencode($email) . "&org=$category" . "&jobTitle=$location";
 
         if($name && $email) {
             return new User([
+                'age' => $age,
                 'name' => $name,
                 'email' => $email,
-                'data' => $qrCode,
+                'phone' => $phone,
+                'gender' => $gender,
                 'location' => $location,
-                'category' => $category
             ]);   
         }
     }
@@ -38,6 +42,6 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
      */
     public function onError(\Throwable $e)
     {
-        info($e->getMessage());
+        // info($e->getMessage());
     }
 }

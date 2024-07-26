@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('qr')->nullable();
             $table->string('email')->unique();
+            $table->string('age')->nullable();
+            $table->string('gender')->nullable();
             $table->string('data')->nullable();
             $table->string('location')->nullable();
             $table->string('category')->nullable();
