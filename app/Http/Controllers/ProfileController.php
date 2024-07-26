@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
+use Str;
 
 class ProfileController extends Controller
 {
@@ -20,6 +21,8 @@ class ProfileController extends Controller
     public function verify(Request $request)
     {
         $email = $request->email;
+        if(Str::startsWith($email, "0")) $email = substr($email, 1);
+    
         $user = User::where('email', $email)
             ->orWhere('phone', $email)->first();
 
