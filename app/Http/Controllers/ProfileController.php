@@ -57,12 +57,20 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
-
+        
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function dash(Request $request)
+    {
+        $users = User::where('sent', 1)->paginate(10);
+        return Inertia::render('Dashboard', [
+            'models' => $users
+        ]);
     }
 }
