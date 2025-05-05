@@ -20,6 +20,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
+Route::get('/mail', 'IndexController@sendMail')->name('mail');
 Route::get('/dashboard', 'ProfileController@dash')->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

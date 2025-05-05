@@ -8,6 +8,7 @@ use PDF;
 use Mail;
 use App\Models\User;
 use App\Mail\QrCreated;
+use App\Mail\SendReminder;
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Inertia\Inertia;
@@ -204,5 +205,21 @@ class IndexController extends Controller
     public function init() {
         Excel::import(new UsersImport, 'list3.xlsx');
         return "Uploaded";
+    }
+
+    public function sendMail() {
+
+        $mails = [
+            'ugo_ebeniro@yahoo.com',
+            'taofeekolamilekan218@gmail.com',
+            'gbenga.ojumu@q21solutions.com',
+            'damilola.ajayi@q21solutions.com',
+            'eunice.adeyemi@q21solutions.com',
+            'idorenyin.emmanson@cchellenic.com',
+            'hammed.adebiyi@cchellenic.com'
+        ];
+
+        Mail::to($mails)->send(new SendReminder());
+        return "Sent";
     }
 }
